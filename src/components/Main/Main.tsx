@@ -20,7 +20,7 @@ export const Main = ({ children }: { children: ReactNode }) => {
       <Layout className={style.layout}>
         <Header className={style.header}>
           <Link href="/">
-            <Title className={style.title}>AnimeFlix</Title>
+            <Title className={style.title}>AnimaTrix</Title>
           </Link>
         </Header>
 
