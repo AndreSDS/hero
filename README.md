@@ -17,7 +17,7 @@ Para começar com o projeto, siga estes passos:
 1. **Clone o repositório**: Clone o repositório do projeto em sua máquina local.
 
     ```bash
-    git clone https://github.com/AndreSDS/hero
+    git clone https://github.com/AndreSDS/hero.git
     ```
 
 2. **Instale as dependências**: Navegue até o diretório do projeto e instale as dependências necessárias usando npm ou yarn.
