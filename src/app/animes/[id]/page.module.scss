@@ -1,0 +1,351 @@
+.container {
+  width: 960px;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 2rem;
+  color: #fff;
+  border-radius: 0.5rem;
+
+  .headerDetail {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+
+    .titleDetail {
+      font-size: 2.75rem;
+      font-weight: bold;
+      color: #fff;
+      margin: 0;
+    }
+
+    a {
+      margin-left: 2rem;
+      color: #ccc;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 960px;
+    height: 100%;
+    overflow: hidden;
+
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      margin: 1rem 0;
+
+      .poster {
+        flex: 1;
+        width: 385px;
+        height: 546px;
+
+        img {
+          width: 385px;
+          height: 546px;
+          border-radius: 0.5rem;
+          object-fit: cover;
+        }
+      }
+
+      .description {
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 100%;
+        width: 100%;
+
+        p {
+          text-align: justify;
+          font-size: 1rem;
+          line-height: 1.15rem;
+        }
+
+        div {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .genres {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .genre {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: red;
+      }
+    }
+
+    button {
+      width: 120px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      background: red;
+      color: #fff;
+      border: none;
+      outline: none;
+
+      &:hover {
+        background-color: #fff;
+        color: red;
+        border: 1px solid red;
+      }
+    }
+
+    .character {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+
+      .charTitle {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .characterItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 1.5rem;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .headerDetail {
+      .titleDetail {
+        font-size: 2rem;
+      }
+    }
+
+    .content {
+      width: 100%;
+      padding: 0;
+      gap: 1rem;
+
+      .hero {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        .poster {
+          width: 100%;
+          height: 100%;
+          margin: 0 auto;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .description {
+          width: 100%;
+          height: 100%;
+          margin: 0 auto;
+        }
+      }
+
+      .genres {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .genre {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      button {
+        width: 100%;
+        height: 50px;
+        font-size: 1rem;
+      }
+
+      .character {
+        .charTitle {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 577px) and (max-width: 768px) {
+    .headerDetail {
+      width: 100%;
+    }
+
+    .content {
+      width: 100%;
+      padding: 0;
+      gap: 1rem;
+
+      .hero {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        .poster {
+          width: 70%;
+          height: 70%;
+          margin: 0 auto;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .description {
+          width: 80%;
+          height: 80%;
+          margin: 0 auto;
+        }
+      }
+
+      .genres {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .genre {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      button {
+        width: 100%;
+        height: 50px;
+        font-size: 1rem;
+      }
+
+      .character {
+        width: 80%;
+
+        .charTitle {
+          font-size: 1.5rem;
+        }
+
+        .characterItem {
+          width: 100%;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 992px) {
+    .headerDetail {
+      width: 100%;
+    }
+
+    .content {
+      width: 100%;
+      padding: 0;
+      gap: 1rem;
+
+      .hero {
+        align-items: flex-start;
+        justify-content: center;
+        gap: 1rem;
+
+        .poster {
+          width: 50%;
+          height: 50%;
+          margin: 0 auto;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .description {
+          width: 50%;
+          height: 50%;
+          margin: 0 auto;
+        }
+      }
+
+      .genres {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .genre {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      button {
+        width: 100%;
+        height: 50px;
+        font-size: 1rem;
+      }
+
+      .character {
+        .charTitle {
+          font-size: 1.5rem;
+        }
+
+        .characterItem {
+          width: 100%;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1rem;
+        }
+      }
+    }
+  }
+}
