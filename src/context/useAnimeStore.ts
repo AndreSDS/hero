@@ -36,9 +36,10 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         },
         count: 0,
     },
-    setAnimeName: (name: string) => set((store) => ({
-        animeName: name,
-    })),
+    setAnimeName: (name: string) => set(() => {
+        if (name === '') return { animeName: null }
+        return { animeName: name }
+    }),
     setAnimeStored: (animeData: AnimesResponse) => set((store) => {
         const sortedNewAnimes = sortAnimesById([...store.animeStored.animes, ...animeData.animes])
 

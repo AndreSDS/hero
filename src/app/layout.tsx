@@ -1,4 +1,5 @@
 import "antd/dist/reset.css";
+import '../../public/antd.min.css';
 import "./globals.scss";
 import { MainLayout } from "@/components/MainLayout/MainLayout";
 

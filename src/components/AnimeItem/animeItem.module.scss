@@ -1,6 +1,5 @@
 .card {
-  width: 100%;
-  width: 230px;
+  width: 225px;
 
   &:hover {
     transform: scale(1.05);
@@ -62,8 +61,10 @@
       }
     }
   }
+}
 
   @media screen and (max-width: 576px) {
-    width: 300px;
+    .card {
+      width: 100%;
   }
 }

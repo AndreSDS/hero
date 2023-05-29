@@ -3,12 +3,10 @@
 import { ReactNode } from "react";
 import { ConfigProvider, Layout, Typography } from "antd";
 
-import style from "./mainlayout.module.scss";
-import { useAnimeStore } from "@/context/useAnimeStore";
-import { AnimesResponse } from "@/interfaces/anime";
 import { SearchBar } from "../SearchBar/SearchBar";
+import style from "./mainlayout.module.scss";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { Header, Content } = Layout;
 
 const theme = {
@@ -18,30 +16,19 @@ const theme = {
 };
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
-  const { animeName, setAnimeName, setAnimesFiltered } = useAnimeStore();
-
-  function handleClear() {
-    setAnimeName("");
-
-    setAnimesFiltered({} as AnimesResponse);
-  }
 
   return (
     <ConfigProvider theme={theme}>
-        <Layout className={style.layout}>
-          <Header className={style.header}>
-            <div className={style.navbar}>
-              <Title className={style.title}>AnimaTrix</Title>
-              <div className={style.searchContainer}>
-                {animeName && <span className={style.clear} onClick={handleClear}>limpar filtro</span> }
+      <Layout className={style.layout}>
+        <Header className={style.header}>
+          <div className={style.navbar}>
+            <Title className={style.title}>AnimaTrix</Title>
+            <SearchBar />
+          </div>
+        </Header>
 
-                <SearchBar />
-              </div>
-            </div>
-          </Header>
-
-          <Content className={style.content}>{children}</Content>
-        </Layout>
+        <Content className={style.content}>{children}</Content>
+      </Layout>
     </ConfigProvider>
   );
 };

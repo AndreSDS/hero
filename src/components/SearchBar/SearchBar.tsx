@@ -11,23 +11,55 @@ const { Search } = Input;
 export const SearchBar = () => {
   const { animeName, setAnimeName, setAnimesFiltered } = useAnimeStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");
 
-  async function handleSearch(name: string) {
+  function handleClear() {
+    setName("");
+    setAnimeName("");
+
+    setAnimesFiltered({
+      animes: [],
+      links: {
+        last: "",
+        next: "",
+      },
+      count: 0,
+    });
+  }
+
+  async function handleSearch() {
     setIsLoading(true);
     setAnimeName(name);
+
     const responseFiltered = await getAnimeByName(name);
-    setAnimesFiltered(responseFiltered);
+
+    if (!responseFiltered.animes) {
+      setName("");
+      setAnimeName("");
+    } else {
+      setAnimesFiltered(responseFiltered);
+    }
+
     setIsLoading(false);
   }
 
   return (
-    <Search
-      defaultValue={animeName || ""}
-      className={style.search}
-      onSearch={handleSearch}
-      placeholder="Pesquisar por nome..."
-      loading={isLoading}
-      enterButton
-    />
+    <div className={style.searchContainer}>
+      {animeName && (
+        <span className={style.clear} onClick={handleClear}>
+          limpar
+        </span>
+      )}
+
+      <Search
+        className={style.search}
+        onChange={(e) => setName(e.target.value)}
+        value={animeName ? animeName : name}
+        onSearch={handleSearch}
+        placeholder="Pesquisar por nome..."
+        loading={isLoading}
+        enterButton
+      />
+    </div>
   );
 };
