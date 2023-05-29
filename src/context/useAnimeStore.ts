@@ -41,34 +41,38 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         return { animeName: name }
     }),
     setAnimeStored: (animeData: AnimesResponse) => set((store) => {
-        const sortedNewAnimes = sortAnimesById([...store.animeStored.animes, ...animeData.animes])
+        const animes = sortAnimesById([...store.animeStored.animes, ...animeData.animes])
 
         const links = {
             next: animeData.links.next,
             last: animeData.links.last,
         }
 
+        const count = animeData.count
+
         return {
             animeStored: {
-                animes: sortedNewAnimes,
+                animes,
                 links,
-                count: animeData.count,
+                count,
             }
         }
     }),
     setAnimesFiltered: (animeDataFiltered: AnimesResponse) => set((store) => {
-        const sortedNewAnimes = sortAnimesById([...store.animesFiltered.animes, ...animeDataFiltered.animes])
+        const animes = [...store.animesFiltered.animes, ...animeDataFiltered.animes]
 
         const links = {
             next: animeDataFiltered.links.next,
             last: animeDataFiltered.links.last,
         }
 
+        const count = animeDataFiltered.count
+
         return {
             animesFiltered: {
-                animes: sortedNewAnimes,
+                animes,
                 links,
-                count: animeDataFiltered.count,
+                count,
             }
         }
     })
