@@ -41,7 +41,7 @@ export const getAnimes = async () => {
 }
 
 export const getAnimeByName = async (name: string) => {
-    const { data } = await api.get(`anime/?filter[text]=${name}`)
+    const { data } = await api.get(`/anime/?filter[text]=${name}`)
 
     const animes = extractAnimes(data.data)
 
@@ -49,7 +49,7 @@ export const getAnimeByName = async (name: string) => {
 }
 
 export const getAnimesNextPage = async (nextUrl: string) => {
-    const { data } = await api.get(`anime/${nextUrl}`)
+    const { data } = await api.get(`${nextUrl}`)
 
     const animes = extractAnimes(data.data)
 
