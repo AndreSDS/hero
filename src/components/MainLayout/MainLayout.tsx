@@ -9,7 +9,7 @@ import { useAnimeStore } from "@/context/useAnimeStore";
 import { AnimesResponse } from "@/interfaces/anime";
 import { SearchBar } from "../SearchBar/SearchBar";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { Header, Content } = Layout;
 
 const theme = {
@@ -35,7 +35,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
             <div className={style.navbar}>
               <Title className={style.title}>AnimaTrix</Title>
               <div className={style.searchContainer}>
-                {animeName && <span onClick={handleClear}>Limpar Filtro</span>}
+                {animeName && <span className={style.clear} onClick={handleClear}>limpar filtro</span> }
 
                 <SearchBar />
               </div>

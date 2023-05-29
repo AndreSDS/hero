@@ -9,7 +9,7 @@ import style from "./searchbar.module.scss";
 const { Search } = Input;
 
 export const SearchBar = () => {
-  const { setAnimeName, setAnimesFiltered } = useAnimeStore();
+  const { animeName, setAnimeName, setAnimesFiltered } = useAnimeStore();
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSearch(name: string) {
@@ -22,6 +22,7 @@ export const SearchBar = () => {
 
   return (
     <Search
+      defaultValue={animeName || ""}
       className={style.search}
       onSearch={handleSearch}
       placeholder="Pesquisar por nome..."
