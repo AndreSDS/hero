@@ -10,6 +10,8 @@ O projeto frontend tem como objetivo criar uma aplicação web dinâmica e respo
 - **Sass CSS**: Um pré-processador CSS que adiciona recursos como variáveis, mixins e regras aninhadas.
 - **Vercel**: Uma plataforma em nuvem para hospedagem de sites estáticos e funções serverless.
 
+O link para acessar a demo é esse [AnimaTrix](https://vercel.com/andresds/hero).
+
 ## Como Começar
 
 Para começar com o projeto, siga estes passos:
