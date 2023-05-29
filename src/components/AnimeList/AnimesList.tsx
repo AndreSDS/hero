@@ -31,6 +31,8 @@ export const AnimesList = () => {
   }, [animeName, animesFiltered, offset, animeStored]);
 
   async function fetchingAnimes() {
+    if (animeStored.animes.length > 0) return setLoading(false);
+
     try {
       const animeResponse: AnimesResponse = await getAnimes();
       setAnimeStored(animeResponse);
@@ -76,7 +78,6 @@ export const AnimesList = () => {
   };
 
   useEffect(() => {
-    if (animeName) return;
     fetchingAnimes();
   }, []);
 
