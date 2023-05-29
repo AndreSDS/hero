@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode } from "react";
-import { queryClient, QueryClientProvider } from "@/lib/queryClient";
 import { ConfigProvider, Layout, Typography } from "antd";
 
 import style from "./mainlayout.module.scss";
@@ -29,7 +28,6 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <ConfigProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
         <Layout className={style.layout}>
           <Header className={style.header}>
             <div className={style.navbar}>
@@ -44,7 +42,6 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
 
           <Content className={style.content}>{children}</Content>
         </Layout>
-      </QueryClientProvider>
     </ConfigProvider>
   );
 };
