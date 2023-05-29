@@ -3,9 +3,11 @@ import { Anime, AnimesResponse } from "../interfaces/anime";
 
 interface AnimeStore {
     animeName: string | null,
-    animeStore: AnimesResponse,
-    setAnimeStore: (animeData: AnimesResponse) => void
-    setAnimeName: (name: string) => void
+    animeStored: AnimesResponse,
+    animesFiltered: AnimesResponse,
+    setAnimeName: (name: string) => void,
+    setAnimeStored: (animeData: AnimesResponse) => void
+    setAnimesFiltered: (animeData: AnimesResponse) => void
 }
 
 function sortAnimesById(animes: Anime[]) {
@@ -18,7 +20,7 @@ function sortAnimesById(animes: Anime[]) {
 
 export const useAnimeStore = create<AnimeStore>((set) => ({
     animeName: null,
-    animeStore: {
+    animeStored: {
         animes: [],
         links: {
             last: '',
@@ -26,11 +28,19 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         },
         count: 0,
     },
-    setAnimeStore: (animeData: AnimesResponse) => set((state) => {
-        const animes = sortAnimesById([
-            ...state.animeStore.animes,
-            ...animeData.animes,
-        ])
+    animesFiltered: {
+        animes: [],
+        links: {
+            last: '',
+            next: '',
+        },
+        count: 0,
+    },
+    setAnimeName: (name: string) => set((store) => ({
+        animeName: name,
+    })),
+    setAnimeStored: (animeData: AnimesResponse) => set((store) => {
+        const sortedNewAnimes = sortAnimesById([...store.animeStored.animes, ...animeData.animes])
 
         const links = {
             next: animeData.links.next,
@@ -38,15 +48,27 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         }
 
         return {
-            animeStore: {
-                ...state.animeStore,
-                animes,
+            animeStored: {
+                animes: sortedNewAnimes,
                 links,
                 count: animeData.count,
             }
         }
     }),
-    setAnimeName: (name: string) => set((state) => ({
-        animeName: name,
-    }))
+    setAnimesFiltered: (animeDataFiltered: AnimesResponse) => set((store) => {
+        const sortedNewAnimes = sortAnimesById([...store.animesFiltered.animes, ...animeDataFiltered.animes])
+
+        const links = {
+            next: animeDataFiltered.links.next,
+            last: animeDataFiltered.links.last,
+        }
+
+        return {
+            animesFiltered: {
+                animes: sortedNewAnimes,
+                links,
+                count: animeDataFiltered.count,
+            }
+        }
+    })
 }))

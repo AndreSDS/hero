@@ -1,9 +1,9 @@
 import "antd/dist/reset.css";
 import "./globals.scss";
-import { Main } from "@/components/Main/Main";
+import { MainLayout } from "@/components/MainLayout/MainLayout";
 
 export const metadata = {
-  title: "Anime API",
+  title: "AnimeTrix",
   description: "Project to search animes that you like",
 };
 
@@ -15,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Main>
-        {children}
-        </Main>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );

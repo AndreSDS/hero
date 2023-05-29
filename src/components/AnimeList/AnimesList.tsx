@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Space, Pagination, Spin } from "antd";
 import { Anime, AnimesResponse } from "@/interfaces/anime";
 import { useAnimeStore } from "@/context/useAnimeStore";
@@ -9,64 +9,65 @@ import { AnimeItem } from "../AnimeItem/AnimeItem";
 import style from "./animeslist.module.scss";
 
 export const AnimesList = () => {
-  const { animeStore, setAnimeStore } = useAnimeStore();
-  const [currentAnimes, setCurrentAnimes] = useState<Anime[]>([]);
+  const {
+    animeName,
+    animeStored,
+    animesFiltered,
+    setAnimeStored,
+    setAnimesFiltered,
+  } = useAnimeStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+
   const limit = 10;
-  const {
-    animes,
-    links: { next, last },
-    count: countAnimes,
-  } = animeStore;
+  const offset = (currentPage - 1) * limit;
+
+  const currentAnimes = useMemo(() => {
+    if (animeName) {
+      return animesFiltered.animes.slice(offset, offset + limit);
+    } else {
+      return animeStored.animes.slice(offset, offset + limit);
+    }
+  }, [animeName, animesFiltered, offset, animeStored]);
 
   async function fetchingAnimes() {
     const animeResponse: AnimesResponse = await getAnimes();
-
-    setAnimeStore(animeResponse);
-    setCurrentAnimes(animeResponse.animes.slice(0, 10));
-
+    setAnimeStored(animeResponse);
     setLoading(false);
   }
 
-  async function nextAnimes() {
-    setLoading(true);
-
-    const nextUrl = next.split("/anime")[1];
+  async function nextAnimes(page: number) {
+    const next = animeName ? animesFiltered.links.next : animeStored.links.next;
+    const nextUrl = next.split("/edge")[1];
 
     const animeResponse: AnimesResponse = await getAnimesNextPage(nextUrl);
 
-    setAnimeStore(animeResponse);
+    if (animeName) {
+      setAnimesFiltered(animeResponse);
+    } else {
+      setAnimeStored(animeResponse);
+    }
 
-    setCurrentAnimes(animeResponse.animes);
-
-    setLoading(false);
-  }
-
-  function prevAnimes(page: number) {
-    const offset = (page - 1) * limit;
-
-    if (offset === 0) return setCurrentAnimes(animes.slice(0, limit));
-
-    const animesByOffset = animes.slice(offset, offset + limit);
-
-    setCurrentAnimes(animesByOffset);
+    setCurrentPage(page);
   }
 
   const onPaginationChange = async (page: number) => {
-    setCurrentPage(page);
-    const offset = (page - 1) * limit;
+    setLoading(true);
+    const count = animeName ? animesFiltered.count : animeStored.count;
 
-    if (offset < 0 || offset > countAnimes) return;
+    if (offset < 0 || offset > count) return;
 
-    if (animes.length < offset + limit) {
-      await nextAnimes();
+    if (page > currentPage) {
+      await nextAnimes(page);
     } else {
-      prevAnimes(page);
+      setCurrentPage(page);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
+    if (animeName) return;
     fetchingAnimes();
   }, []);
 
@@ -74,17 +75,19 @@ export const AnimesList = () => {
 
   return (
     <Space size="large" className={style.animesList}>
-      {currentAnimes.map((anime: Anime) => (
-        <AnimeItem key={anime.id} anime={anime} />
-      ))}
+      <div className={style.listContent}>
+        {currentAnimes.map((anime: Anime) => (
+          <AnimeItem key={anime.id} anime={anime} />
+        ))}
+      </div>
 
       <Pagination
         className={style.pagination}
-        onChange={(page: number) => onPaginationChange(page)}
+        onChange={onPaginationChange}
         showSizeChanger={false}
         defaultCurrent={1}
         current={currentPage}
-        total={countAnimes}
+        total={animeName ? animesFiltered.count : animeStored.count}
       />
     </Space>
   );

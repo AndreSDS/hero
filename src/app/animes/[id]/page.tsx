@@ -27,12 +27,13 @@ export default function AnimeDetail({ params }: AnimeDetailProps) {
       image: string;
     }>
   >([]);
-  const {
-    animeStore: { animes },
-  } = useAnimeStore();
+  const { animeStored, animesFiltered, animeName } = useAnimeStore();
   const { id } = params;
 
-  const anime = animes.find((anime) => anime.id === id);
+  console.log({id})
+
+  const animesArr = animeName ? animesFiltered.animes : animeStored.animes;
+  const anime = animesArr.find((anime) => anime.id === id);
 
   const fetchingRelations = async () => {
     const charactersArr = await gerCharacters(id);

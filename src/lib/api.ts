@@ -37,29 +37,29 @@ export const getAnimes = async () => {
 
     const animes = extractAnimes(data.data)
 
-    return {animes, links: data.links, count: data.meta.count}
+    return { animes, links: data.links, count: data.meta.count }
 }
 
 export const getAnimeByName = async (name: string) => {
-    const { data } = await api.get(`/anime?filter[text]=${name}`)
+    const { data } = await api.get(`anime/?filter[text]=${name}`)
 
     const animes = extractAnimes(data.data)
 
-    return {animes, links: data.links, count: data.meta.count}
+    return { animes, links: data.links, count: data.meta.count }
 }
 
 export const getAnimesNextPage = async (nextUrl: string) => {
-    const { data } = await api.get(`/anime?${nextUrl}`)
+    const { data } = await api.get(`anime/${nextUrl}`)
 
     const animes = extractAnimes(data.data)
 
-    return {animes, links: data.links, count: data.meta.count}
+    return { animes, links: data.links, count: data.meta.count }
 }
 
 export const getGenres = async (id: string) => {
     const {
         data: { data: genres },
-    } = await api.get(`/anime/${id}/genres`);
+    } = await api.get(`anime/${id}/genres`);
 
     const genresArr = genres.map((genre: any) => genre.attributes.name);
 
@@ -69,7 +69,7 @@ export const getGenres = async (id: string) => {
 export const gerCharacters = async (id: string) => {
     const {
         data: { data: characters },
-    } = await api.get(`/anime/${id}/characters`);
+    } = await api.get(`anime/${id}/characters`);
 
     const idCharArr = characters.map((char: any) => char.id);
 
