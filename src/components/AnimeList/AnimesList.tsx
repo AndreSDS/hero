@@ -31,28 +31,37 @@ export const AnimesList = () => {
   }, [animeName, animesFiltered, offset, animeStored]);
 
   async function fetchingAnimes() {
-    const animeResponse: AnimesResponse = await getAnimes();
-    setAnimeStored(animeResponse);
-    setLoading(false);
+    try {
+      const animeResponse: AnimesResponse = await getAnimes();
+      setAnimeStored(animeResponse);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   }
 
   async function nextAnimes(page: number) {
     const next = animeName ? animesFiltered.links.next : animeStored.links.next;
     const nextUrl = next.split("/edge")[1];
 
-    const animeResponse: AnimesResponse = await getAnimesNextPage(nextUrl);
+    try {
+      const animeResponse: AnimesResponse = await getAnimesNextPage(nextUrl);
 
-    if (animeName) {
-      setAnimesFiltered(animeResponse);
-    } else {
-      setAnimeStored(animeResponse);
+      if (animeName) {
+        setAnimesFiltered(animeResponse);
+      } else {
+        setAnimeStored(animeResponse);
+      }
+      setCurrentPage(page);
+    } catch (error) {
+      console.log(error);
     }
-
-    setCurrentPage(page);
   }
 
   const onPaginationChange = async (page: number) => {
     setLoading(true);
+
     const count = animeName ? animesFiltered.count : animeStored.count;
 
     if (offset < 0 || offset > count) return;
