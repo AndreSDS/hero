@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { Input } from "antd";
 import { getAnimeByName } from "@/lib/api";
+import { useRouter, usePathname } from "next/navigation";
 import { useAnimeStore } from "@/context/useAnimeStore";
 import style from "./searchbar.module.scss";
 
 const { Search } = Input;
 
 export const SearchBar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const { animeName, setAnimeName, setAnimesFiltered } = useAnimeStore();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
@@ -22,9 +25,14 @@ export const SearchBar = () => {
       links: {
         last: "",
         next: "",
+        prev: "",
       },
       count: 0,
     });
+
+    if (pathname !== "/") {
+      router.back();
+    }
   }
 
   async function handleSearch() {
@@ -41,6 +49,10 @@ export const SearchBar = () => {
     }
 
     setIsLoading(false);
+
+    if (pathname !== "/") {
+      router.back();
+    }
   }
 
   return (

@@ -18,6 +18,24 @@ function sortAnimesById(animes: Anime[]) {
     })
 }
 
+function createNewDataToStore(animesInStore: Anime[], animesData: AnimesResponse, sort?: boolean) {
+    const animes = sort ? sortAnimesById([...animesInStore, ...animesData.animes]) : [...animesInStore, ...animesData.animes]
+
+    const links = {
+        next: animesData.links.next,
+        last: animesData.links.last,
+        prev: animesData.links.prev,
+    }
+
+    const count = animesData.count
+
+    return {
+        animes,
+        links,
+        count,
+    }
+}
+
 export const useAnimeStore = create<AnimeStore>((set) => ({
     animeName: null,
     animeStored: {
@@ -25,6 +43,7 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         links: {
             last: '',
             next: '',
+            prev: '',
         },
         count: 0,
     },
@@ -33,6 +52,7 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         links: {
             last: '',
             next: '',
+            prev: '',
         },
         count: 0,
     },
@@ -41,39 +61,17 @@ export const useAnimeStore = create<AnimeStore>((set) => ({
         return { animeName: name }
     }),
     setAnimeStored: (animeData: AnimesResponse) => set((store) => {
-        const animes = sortAnimesById([...store.animeStored.animes, ...animeData.animes])
-
-        const links = {
-            next: animeData.links.next,
-            last: animeData.links.last,
-        }
-
-        const count = animeData.count
+        const newDataAnimes = createNewDataToStore(store.animeStored.animes, animeData)
 
         return {
-            animeStored: {
-                animes,
-                links,
-                count,
-            }
+            animeStored: newDataAnimes
         }
     }),
     setAnimesFiltered: (animeDataFiltered: AnimesResponse) => set((store) => {
-        const animes = [...store.animesFiltered.animes, ...animeDataFiltered.animes]
-
-        const links = {
-            next: animeDataFiltered.links.next,
-            last: animeDataFiltered.links.last,
-        }
-
-        const count = animeDataFiltered.count
+        const newDataAnimes = createNewDataToStore(store.animesFiltered.animes, animeDataFiltered, false)
 
         return {
-            animesFiltered: {
-                animes,
-                links,
-                count,
-            }
+            animesFiltered: newDataAnimes
         }
     })
 }))

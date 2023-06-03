@@ -17,12 +17,23 @@
 
   .headerDetail {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
     background-color: transparent;
     width: 100%;
     height: 50px;
     padding: 0;
+
+    span {
+      text-align: left;
+      display: inline-block;
+      width: 100%;
+      font-size: 1rem;
+      text-decoration: underline;
+      cursor: pointer;
+      color: #ccc;
+    }
 
     .titleDetail {
       font-size: 2.75rem;

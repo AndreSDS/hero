@@ -86,6 +86,7 @@ export interface AnimesResponse {
     links: {
         last: string
         next: string
+        prev: string
     }
     count: number
 }

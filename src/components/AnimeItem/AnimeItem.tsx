@@ -34,6 +34,7 @@ export const AnimeItem = ({ anime }: AnimeItemProps) => {
             alt={canonicalTitle}
             width={220}
             height={300}
+            priority
           />
 
           <div className={style.info}>

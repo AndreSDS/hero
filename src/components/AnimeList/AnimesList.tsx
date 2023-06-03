@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Space, Pagination, Spin } from "antd";
+import { Space } from "antd";
 import { Anime, AnimesResponse } from "@/interfaces/anime";
 import { useAnimeStore } from "@/context/useAnimeStore";
 import { getAnimes, getAnimesNextPage } from "@/lib/api";
 import { AnimeItem } from "../AnimeItem/AnimeItem";
+import { Spinner } from "../Spinner/Spinner";
+import { PaginationComponent } from "../Pagination/Pagination";
 import style from "./animeslist.module.scss";
 
 export const AnimesList = () => {
@@ -17,11 +19,14 @@ export const AnimesList = () => {
     setAnimesFiltered,
   } = useAnimeStore();
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const limit = 10;
   const offset = (currentPage - 1) * limit;
-
+  const count = useMemo(
+    () => (animeName ? animesFiltered.count : animeStored.count),
+    [animeName, animesFiltered, animeStored]
+  );
   const currentAnimes = useMemo(() => {
     if (animeName) {
       return animesFiltered.animes.slice(offset, offset + limit);
@@ -29,6 +34,10 @@ export const AnimesList = () => {
       return animeStored.animes.slice(offset, offset + limit);
     }
   }, [animeName, animesFiltered, offset, animeStored]);
+  const next = useMemo(
+    () => (animeName ? animesFiltered.links.next : animeStored.links.next),
+    [animeName, animesFiltered, animeStored]
+  );
 
   async function fetchingAnimes() {
     if (animeStored.animes.length > 0) return setLoading(false);
@@ -43,8 +52,7 @@ export const AnimesList = () => {
     }
   }
 
-  async function nextAnimes(page: number) {
-    const next = animeName ? animesFiltered.links.next : animeStored.links.next;
+  async function nextPage(page: number) {
     const nextUrl = next.split("/edge")[1];
 
     try {
@@ -55,25 +63,22 @@ export const AnimesList = () => {
       } else {
         setAnimeStored(animeResponse);
       }
+
       setCurrentPage(page);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const onPaginationChange = async (page: number) => {
+  const onChange = async (page: number) => {
     setLoading(true);
+    if (offset > count) return;
 
-    const count = animeName ? animesFiltered.count : animeStored.count;
-
-    if (offset < 0 || offset > count) return;
-
-    if (page > currentPage) {
-      await nextAnimes(page);
+    if (page > currentPage && currentAnimes.length < page * limit) {
+      await nextPage(page);
     } else {
       setCurrentPage(page);
     }
-
     setLoading(false);
   };
 
@@ -81,7 +86,10 @@ export const AnimesList = () => {
     fetchingAnimes();
   }, []);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (
+    loading || currentAnimes.length === 0) {
+    return <Spinner />;
+  }
 
   return (
     <Space size="large" className={style.animesList}>
@@ -91,13 +99,10 @@ export const AnimesList = () => {
         ))}
       </div>
 
-      <Pagination
-        className={style.pagination}
-        onChange={onPaginationChange}
-        showSizeChanger={false}
-        defaultCurrent={1}
-        current={currentPage}
-        total={animeName ? animesFiltered.count : animeStored.count}
+      <PaginationComponent
+        onChange={onChange}
+        currentPage={currentPage}
+        total={count}
       />
     </Space>
   );

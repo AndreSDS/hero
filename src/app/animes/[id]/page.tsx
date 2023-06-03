@@ -9,8 +9,10 @@ import { useAnimeStore } from "@/context/useAnimeStore";
 import { gerCharacters, getGenres } from "@/lib/api";
 import { Anime } from "@/interfaces/anime";
 import style from "./page.module.scss";
+import { Spinner } from "@/components/Spinner/Spinner";
+import { useRouter } from "next/navigation";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { Header, Content } = Layout;
 
 interface AnimeDetailProps {
@@ -20,6 +22,7 @@ interface AnimeDetailProps {
 }
 
 export default function AnimeDetail({ params }: AnimeDetailProps) {
+  const router = useRouter();
   const [genres, setGenres] = useState<string[]>([]);
   const [characters, setCharacters] = useState<
     Array<{
@@ -70,10 +73,14 @@ export default function AnimeDetail({ params }: AnimeDetailProps) {
     >
       <Content className={style.content}>
         {genres.length === 0 || characters.length === 0 || !posterImage ? (
-          <Spin size="large" />
+          <Spinner />
         ) : (
           <>
             <Header className={style.headerDetail}>
+              <Text className={style.goBack} onClick={() => router.back()}>
+                Go back
+              </Text>
+              
               <Title className={style.titleDetail}>{canonicalTitle}</Title>
             </Header>
 

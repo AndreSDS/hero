@@ -16,34 +16,6 @@
     flex-wrap: wrap;
     gap: 1.5rem;
   }
-
-  .pagination {
-    li {
-      background-color: transparent;
-      font-weight: bold;
-      transition: all 0.3s ease-in-out;
-
-      a {
-        color: #fff;
-      }
-
-      &:hover,
-      &:active {
-        border: solid 2px #fff;
-
-        a {
-          color: #fff;
-        }
-      }
-
-      button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: solid 2px #fff;
-      }
-    }
-  }
 }
 
 @media screen and (max-width: 576px) {
