@@ -7,7 +7,8 @@ const nextConfig = {
   },
   images: {
     domains: ['media.kitsu.io'],
-  }
+  },
+  transpilePackages: ['antd']
 };
 
 module.exports = nextConfig;
