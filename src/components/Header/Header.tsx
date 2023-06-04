@@ -12,7 +12,7 @@ export const Header = () => {
   return (
     <HeaderContainer className={style.header}>
       <div className={style.navbar}>
-        <Title className={style.title}>AnimaTrix</Title>
+        <Title className={style.title}>AnimeTrix</Title>
         <SearchBar />
       </div>
     </HeaderContainer>
